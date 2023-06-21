@@ -38,7 +38,7 @@ const Login = ({ url }) => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>{success ? success : "Welcome Back"}</h1>
+      <h1 className={styles.title}>{success ? success : null}</h1>
       <h2 className={styles.subtitle}>Please sign in to see the dashboard.</h2>
 
       <form onSubmit={handleSubmit} className={styles.form}>

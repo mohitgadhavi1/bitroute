@@ -5,36 +5,21 @@ import useSWR from "swr";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Popup from "@/components/Popup";
+import Table from "@/components/Table";
 
 const Dashboard = () => {
-  //OLD WAY TO FETCH DATA
-
-  // const [data, setData] = useState([]);
-  // const [err, setErr] = useState(false);
-  // const [isLoading, setIsLoading] = useState(false);
-
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     setIsLoading(true);
-  //     const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
-  //       cache: "no-store",
-  //     });
-
-  //     if (!res.ok) {
-  //       setErr(true);
-  //     }
-
-  //     const data = await res.json()
-
-  //     setData(data);
-  //     setIsLoading(false);
-  //   };
-  //   getData()
-  // }, []);
-
   const session = useSession();
-
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpen = () => {
+    setIsOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
 
   //NEW WAY TO FETCH DATA
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
@@ -56,7 +41,7 @@ const Dashboard = () => {
     e.preventDefault();
     const title = e.target[0].value;
     const desc = e.target[1].value;
-    const img = e.target[2].value;
+    const img = e.target[2].value || "N.A";
     const content = e.target[3].value;
 
     try {
@@ -90,38 +75,67 @@ const Dashboard = () => {
 
   if (session.status === "authenticated") {
     return (
-      <div className={styles.container}>
-        <div className={styles.posts}>
-          {isLoading
-            ? "loading"
-            : data?.map((post) => (
-                <div className={styles.post} key={post._id}>
-                  <div className={styles.imgContainer}>
-                    <Image src={post.img} alt="" width={200} height={100} />
-                  </div>
-                  <h2 className={styles.postTitle}>{post.title}</h2>
+      <div className="flex  flex-col items-center   h-screen">
+        <div className="flex w-full h-auto    flex-col items-end">
+          <button
+            className="border border-primary hover:bg-primary mb-2  text-white font-bold py-2 px-4 rounded"
+            onClick={handleOpen}
+          >
+            Add New
+          </button>
+          <Popup isOpen={isOpen} onClose={handleClose}>
+            <h2 className="text-xl font-bold mb-4">Add New Post</h2>
+            {/* <p>This is the content of the popup.</p> */}
+
+            <form className={styles.new} onSubmit={handleSubmit}>
+              <input type="text" placeholder="Title" className={styles.input} />
+              <input type="text" placeholder="Desc" className={styles.input} />
+              <input type="text" placeholder="Image" className={styles.input} />
+              <textarea
+                placeholder="Content"
+                className={styles.textArea}
+                cols="30"
+                rows="10"
+              ></textarea>
+              <button className={styles.button} onClick={handleClose}>
+                Upload
+              </button>
+            </form>
+          </Popup>
+          {isLoading ? (
+            "loading"
+          ) : (
+            <Table
+              columns={[
+                {
+                  key: "title",
+                  title: "Title",
+                },
+                {
+                  key: "date",
+                  title: "Publish Date",
+                },
+                {
+                  key: "action",
+                  title: "Action",
+                },
+              ]}
+              data={data.map((post) => ({
+                id: post._id,
+                title: post.title,
+                date:new Date(post.createdAt).toLocaleDateString(),
+                action: (
                   <span
                     className={styles.delete}
                     onClick={() => handleDelete(post._id)}
                   >
                     X
                   </span>
-                </div>
-              ))}
+                ),
+              }))}
+            />
+          )}
         </div>
-        <form className={styles.new} onSubmit={handleSubmit}>
-          <h1>Add New Post</h1>
-          <input type="text" placeholder="Title" className={styles.input} />
-          <input type="text" placeholder="Desc" className={styles.input} />
-          <input type="text" placeholder="Image" className={styles.input} />
-          <textarea
-            placeholder="Content"
-            className={styles.textArea}
-            cols="30"
-            rows="10"
-          ></textarea>
-          <button className={styles.button}>Send</button>
-        </form>
       </div>
     );
   }

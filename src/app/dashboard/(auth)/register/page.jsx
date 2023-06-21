@@ -27,7 +27,8 @@ const Register = () => {
           password,
         }),
       });
-      res.status === 201 && router.push("/dashboard/login?success=Account has been created");
+      res.status === 201 &&
+        router.push("/dashboard/login?success=Account has been created");
     } catch (err) {
       setError(err);
       console.log(err);
@@ -36,8 +37,13 @@ const Register = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Create an Account</h1>
-      <h2 className={styles.subtitle}>Please sign up to see the dashboard.</h2>
+      <h1 className={styles.title}>Create an Account & Start Contributing</h1>
+      <h2 className={`${styles.subtitle} `}>
+        Please sign up to see the dashboard.
+      </h2>
+      <span className={`text-sm text-gray-500 `}>
+        (Admin Permission Required before Sign up)
+      </span>
       <form onSubmit={handleSubmit} className={styles.form}>
         <input
           type="text"

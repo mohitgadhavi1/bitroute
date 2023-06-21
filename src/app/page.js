@@ -7,14 +7,15 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <div className={styles.item}>
-        <h1 className={styles.title}>
-          Better design for your digital products.
+        <h1 className={`${styles.title} font-semibold`}>
+          Diving Deep into the AI Ocean.
         </h1>
         <p className={styles.desc}>
-          Turning your Idea into Reality. We bring together the teams from the
-          global tech industry.
+          A Comprehensive Exploration of the Artificial Intelligence Landscape.
+          Stay Ahead with Cutting-Edge Insights and Updates on Artificial
+          Intelligence Research .
         </p>
-        <Button url="/portfolio" text="See Our Works" />
+        <Button url="/articles" text="Learn more" />
       </div>
       <div className={styles.item}>
         <Image src={Hero} alt="" className={styles.img} />
