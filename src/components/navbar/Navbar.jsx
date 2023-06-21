@@ -63,6 +63,9 @@ const Navbar = () => {
                 <DarkModeToggle />
               </div>
             </div>
+
+            {/* -------------------------mobile menu-------------------------------------  */}
+
             <div className="-mr-2 flex md:hidden">
               <button
                 type="button"
@@ -110,9 +113,13 @@ const Navbar = () => {
           className={`md:hidden ${isMenuOpen ? "block" : "hidden"}`}
           id="mobile-menu"
         >
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+          <div className="bg-gray-700  min-h-[50vh] justify-center items-center rounded-md flex flex-col   gap-y-6 ">
             {links.map((link) => (
-              <Link key={link.id} href={link.url} className={styles.link}>
+              <Link
+                key={link.id}
+                href={link.url}
+                className={` hover:underline text-white dark:text-base`}
+              >
                 {link.title}
               </Link>
             ))}
