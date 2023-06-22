@@ -56,7 +56,13 @@ const Navbar = () => {
                 ))}
 
                 {session.status === "authenticated" && (
-                  <HoverMenu items={[<p onClick={signOut}>Logout</p>]}>
+                  <HoverMenu
+                    items={[
+                      <p key={"uniuq1"} onClick={signOut}>
+                        Logout
+                      </p>,
+                    ]}
+                  >
                     <FaUserCircle className="text-primary text-2xl cursor-pointer hover:text-primary/80" />
                   </HoverMenu>
                 )}
