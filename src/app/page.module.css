@@ -20,10 +20,11 @@
   }
   
   .img {
-    width: 100%;
+    width: fit-content;
     height: 500px;
     object-fit: contain;
     animation: move 3s infinite ease alternate;
+    
   }
   
   @keyframes move {

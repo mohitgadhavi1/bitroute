@@ -87,8 +87,12 @@ const Dashboard = () => {
       console.log(err);
     }
   };
+  console.log("session", session);
 
-  if (session.status === "authenticated") {
+  if (
+    session.status === "authenticated" &&
+    session.data.user.email === "mohitgadhavi1@gmail.com"
+  ) {
     return (
       <div className="flex  flex-col items-center   h-screen">
         <div className="flex w-full h-auto    flex-col items-end">
@@ -176,6 +180,10 @@ const Dashboard = () => {
                   title: "Title",
                 },
                 {
+                  key: "type",
+                  title: "Type",
+                },
+                {
                   key: "date",
                   title: "Publish Date",
                 },
@@ -187,6 +195,7 @@ const Dashboard = () => {
               data={data.map((post) => ({
                 id: post._id,
                 title: post.title,
+                type: post.desc,
                 date: new Date(post.createdAt).toLocaleDateString(),
                 action: (
                   <span

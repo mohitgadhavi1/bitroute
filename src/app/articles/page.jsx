@@ -52,7 +52,6 @@ const FramerImage = motion(Image);
 
 const Articles = async () => {
   const data = await getData();
-  console.log(data, "data");
 
   return (
     <>
@@ -66,71 +65,40 @@ const Articles = async () => {
             text={"Words Can Change The World! "}
             className="mb-16 lg:!text-7xl sm:mb-8 sm:!text-6xl lg:gap-8 xs:!text-4xl md:gap-y-16"
           /> */}
-        <ul className="grid grid-cols-2 gap-16 md:grid-cols-1">
-          <FeaturedArticle
-            title={
-              "Build A Custom Pagination Component In Reactjs From Scratch"
+        <ul className="grid xs:grid-cols-1 grid-cols-2 gap-16 ">
+          {data.map((article) => {
+            if (article.desc === "featured") {
+              return (
+                <FeaturedArticle
+                  key={article._id}
+                  title={article.title}
+                  summary={` Learn how to build a custom pagination component in ReactJS from scratch.
+              Follow this step-by-step guide to integrate Pagination component in your ReactJS project.`}
+                  time={" 9 min read"}
+                  link={"/"}
+                  img={null}
+                />
+              );
             }
-            summary={` Learn how to build a custom pagination component in ReactJS from scratch.
-            Follow this step-by-step guide to integrate Pagination component in your ReactJS project.`}
-            time={" 9 min read"}
-            link={"/"}
-            // img={article1}
-          />
-          <FeaturedArticle
-            title={
-              " Creating Stunning Loading Screens In React: Build 3 Types Of Loading Screens"
-            }
-            summary={`Learn how to create stunning loading screens in React with 3 different methods.
-               Discover how to use React-Loading, React-Lottie & build a custom loading screen.
-               Improve the user experience.`}
-            time={" 10 min read"}
-            link={"/"}
-            // img={article2}
-          />
+          })}
         </ul>
-        <h2 className="font-bold text-4xl w-full text-center my-16 mt-32">
+        <h2 className="font-bold text-4xl w-full  text-center  my-16 mt-32">
           All Articles
         </h2>
-        <ul>
-          <Article
-            title={
-              " Form Validation In Reactjs: Build A Reusable Custom Hook For Inputs And Error Handling"
+        <ul className="w-full">
+          {data.map((article) => {
+            if (article.desc === "general") {
+            
+              return (
+                <Article
+                  key={article._id}
+                  title={article.title}
+                  date={article.createdAt}
+                  link={"/"}
+                />
+              );
             }
-            date={"January 27, 2023"}
-            link={"/"}
-          />
-          <Article
-            title={
-              " Silky Smooth Scrolling In Reactjs: A Step-By-Step Guide For React Developers"
-            }
-            date={"January 27, 2023"}
-            link={"/"}
-          />
-          <Article
-            title={
-              "Creating An Efficient Modal Component In React Using Hooks And Portals"
-            }
-            date={"January 27, 2023"}
-            link={"/"}
-          />
-          <Article
-            title={
-              "Build A Fabulous Todo List App With React, Redux And Framer-Motion"
-            }
-            date={"January 27, 2023"}
-            link={"/"}
-          />
-          <Article
-            title={"  Redux Simplified: A Beginner's Guide For Web Developers"}
-            date={"January 27, 2023"}
-            link={"/"}
-          />
-          <Article
-            title={" What Is Higher Order Component (Hoc) In React?"}
-            date={"January 27, 2023"}
-            link={"/"}
-          />
+          })}
         </ul>
       </main>
     </>
@@ -148,15 +116,15 @@ const FeaturedArticle = ({ img, title, time, summary, link }) => {
         target="_blank"
         className="w-full inline-block cursor-pointer overflow-hidden rounded-lg"
       >
-        <FramerImage
-          // src={img}
+        {/* <FramerImage
+          src={img}
           alt={title}
           className="w-full h-auto"
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.2 }}
           priority
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
-        />
+        /> */}
       </Link>
       <Link href={link} target="_blank">
         <h2 className="capitalize text-2xl font-bold my-2 mt-4 hover:underline xs:text-lg">

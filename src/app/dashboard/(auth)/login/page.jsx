@@ -23,7 +23,10 @@ const Login = ({ url }) => {
     return <p>Loading...</p>;
   }
 
-  if (session.status === "authenticated") {
+  if (
+    session.status === "authenticated" &&
+    session.data.user.email === "mohitgadhavi1@gmail.com"
+  ) {
     router?.push("/dashboard");
   }
 

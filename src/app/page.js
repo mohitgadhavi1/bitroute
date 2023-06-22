@@ -1,6 +1,6 @@
 import Image from "next/image";
 import styles from "./page.module.css";
-import Hero from "public/hero.png";
+import Hero from "public/robot_bgremove.png";
 import Button from "@/components/Button/Button";
 
 export default function Home() {
@@ -17,8 +17,10 @@ export default function Home() {
         </p>
         <Button url="/articles" text="Learn more" />
       </div>
-      <div className={styles.item}>
-        <Image src={Hero} alt="" className={styles.img} />
+      <div className={` flex justify-end `}>
+        <div>
+          <Image src={Hero} alt="" className={`rounded-xl ${styles.img}`} />
+        </div>
       </div>
     </div>
   );
