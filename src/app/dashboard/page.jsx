@@ -7,11 +7,22 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Popup from "@/components/Popup";
 import Table from "@/components/Table";
+import ImageUpload from "@/components/ImageUpload";
 
 const Dashboard = () => {
   const session = useSession();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedImage(file);
+  };
+
+  const handleRemoveImage = () => {
+    setSelectedImage(null);
+  };
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -38,22 +49,26 @@ const Dashboard = () => {
   }
 
   const handleSubmit = async (e) => {
+    console.log(e.target);
     e.preventDefault();
     const title = e.target[0].value;
     const desc = e.target[1].value;
-    const img = e.target[2].value || "N.A";
+    const img = selectedImage;
     const content = e.target[3].value;
 
+    console.log(img);
+
     try {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("desc", desc);
+      formData.append("img", img);
+      formData.append("content", content);
+      formData.append("username", session.data.user.name);
+
       await fetch("/api/posts", {
         method: "POST",
-        body: JSON.stringify({
-          title,
-          desc,
-          img,
-          content,
-          username: session.data.user.name,
-        }),
+        body: formData,
       });
       mutate();
       e.target.reset();
@@ -89,8 +104,57 @@ const Dashboard = () => {
 
             <form className={styles.new} onSubmit={handleSubmit}>
               <input type="text" placeholder="Title" className={styles.input} />
-              <input type="text" placeholder="Desc" className={styles.input} />
-              <input type="text" placeholder="Image" className={styles.input} />
+              <input type="text" placeholder="Type" className={styles.input} />
+              {/* <input type="text" placeholder="Image" className={styles.input} /> */}
+              <div>
+                <label
+                  title="upload image"
+                  htmlFor="imageUpload"
+                  className=" mb-2 cursor-pointer w-24 h-24 rounded-lg border-2 border-dashed
+         border-gray-300 bg-gray-100 flex justify-center items-center"
+                >
+                  {selectedImage ? (
+                    <img
+                      src={URL.createObjectURL(selectedImage)}
+                      alt="Selected"
+                      className="w-24 h-24 object-cover rounded-lg"
+                    />
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-12 w-12 text-gray-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                      />
+                    </svg>
+                  )}
+                </label>
+                <input
+                  id="imageUpload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="sr-only"
+                />
+                {selectedImage && (
+                  <div className="flex items-center mt-2">
+                    <p className="text-sm mr-2">{selectedImage.name}</p>
+                    <button
+                      onClick={handleRemoveImage}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                )}
+              </div>
               <textarea
                 placeholder="Content"
                 className={styles.textArea}
@@ -123,7 +187,7 @@ const Dashboard = () => {
               data={data.map((post) => ({
                 id: post._id,
                 title: post.title,
-                date:new Date(post.createdAt).toLocaleDateString(),
+                date: new Date(post.createdAt).toLocaleDateString(),
                 action: (
                   <span
                     className={styles.delete}

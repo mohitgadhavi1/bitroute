@@ -18,9 +18,37 @@ export const GET = async (request) => {
 };
 
 export const POST = async (request) => {
-  const body = await request.json();
+  const data = await request.formData();
+  console.log("data", data);
+  const title = data.get("title");
+  const desc = data.get("desc");
+  const img = data.get("img");
+  const content = data.get("content");
+  const username = data.get("username");
 
-  const newPost = new Post(body);
+  let imageBuffer = null;
+
+  if (img && Array.isArray(img) && img.length > 0) {
+    const imgData = img[0];
+    const reader = new FileReader();
+
+    reader.readAsArrayBuffer(imgData);
+
+    await new Promise((resolve) => {
+      reader.onloadend = () => {
+        imageBuffer = Buffer.from(reader.result);
+        resolve();
+      };
+    });
+  }
+
+  const newPost = new Post({
+    title,
+    desc,
+    img: imageBuffer,
+    content,
+    username,
+  });
 
   try {
     await connect();
@@ -29,6 +57,7 @@ export const POST = async (request) => {
 
     return new NextResponse("Post has been created", { status: 201 });
   } catch (err) {
+    console.log(err);
     return new NextResponse("Database Error", { status: 500 });
   }
 };

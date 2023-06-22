@@ -113,7 +113,7 @@ const Navbar = () => {
           className={`md:hidden ${isMenuOpen ? "block" : "hidden"}`}
           id="mobile-menu"
         >
-          <div className="bg-gray-700  min-h-[50vh] justify-center items-center rounded-md flex flex-col   gap-y-6 ">
+          <div className="dark:bg-dark border bg-dark min-h-[50vh] justify-center items-center rounded-md flex flex-col  z-50 mb-4 gap-y-6 ">
             {links.map((link) => (
               <Link
                 key={link.id}

@@ -5,6 +5,8 @@ import { getProviders, signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
+import Image from "next/image";
+
 const Login = ({ url }) => {
   const session = useSession();
   const router = useRouter();
@@ -61,9 +63,15 @@ const Login = ({ url }) => {
         onClick={() => {
           signIn("google");
         }}
-        className={styles.button + " " + styles.google}
+        className="border border-light/40 flex px-16 bg-dark hover:border-dark rounded-lg py-4"
       >
-        Login with Google
+        <Image
+          src={"/googleIcon.svg"}
+          width={20}
+          height={20}
+          alt="google icon "
+        />
+        <p className="ml-2"> Login with Google</p>
       </button>
       <span className={styles.or}>- OR -</span>
       <Link className={styles.link} href="/dashboard/register">
