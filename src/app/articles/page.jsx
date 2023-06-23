@@ -1,23 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./page.module.css";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Head from "next/head";
-
-async function getData() {
-  const res = await fetch("http://localhost:3000/api/posts", {
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-
-  return res.json();
-}
+import { URL } from "@/apiList";
 
 const Blog = async () => {
   const data = await getData();
@@ -51,7 +40,30 @@ const Blog = async () => {
 const FramerImage = motion(Image);
 
 const Articles = async () => {
-  const data = await getData();
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+  
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${URL}/api/posts`);
+
+        if (!response.ok) {
+          throw new Error("Request failed");
+        }
+
+        const jsonData = await response.json();
+        setData(jsonData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log("data", data);
 
   return (
     <>
@@ -66,7 +78,7 @@ const Articles = async () => {
             className="mb-16 lg:!text-7xl sm:mb-8 sm:!text-6xl lg:gap-8 xs:!text-4xl md:gap-y-16"
           /> */}
         <ul className="grid xs:grid-cols-1 grid-cols-2 gap-16 ">
-          {data.map((article) => {
+          {data?.map((article) => {
             if (article.desc === "featured") {
               return (
                 <FeaturedArticle
@@ -85,10 +97,10 @@ const Articles = async () => {
         <h2 className="font-bold text-4xl w-full  text-center  my-16 mt-32">
           All Articles
         </h2>
-        <ul className="w-full">
-          {data.map((article) => {
+
+        <ul className="">
+          {data?.map((article) => {
             if (article.desc === "general") {
-            
               return (
                 <Article
                   key={article._id}
@@ -142,13 +154,12 @@ const FeaturedArticle = ({ img, title, time, summary, link }) => {
 const Article = ({ title, date, link }) => {
   return (
     <motion.li
-      initial={{ y: 200 }}
+      initial={{ y: 50 }}
       whileInView={{ y: 0, transition: { duration: 0.5, ease: "easeInOut" } }}
       viewport={{ once: true }}
-      className="relative w-full p-4 py-6 my-4 rounded-xl flex items-center
+      className="relative w-full my-4 p-4 py-6  rounded-xl flex items-center
      justify-between bg-light dark:bg-dark dark:border-light
       dark:text-light text-dark first:mt-0 border border-solid border-dark 
-sm:flex-col
      border-r-4 border-b-4
      "
     >
@@ -157,7 +168,7 @@ sm:flex-col
           {title}
         </h2>
       </Link>
-      <span className="text-primary dark:text-primaryDark font-semibold pl-4 sm:pl-0 sm:self-start xs:text-sm">
+      <span className="text-primary dark:text-primaryDark font-semibold pl-4 ">
         {date}
       </span>
     </motion.li>
