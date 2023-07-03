@@ -43,8 +43,6 @@ const Articles = async () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-  
-
     const fetchData = async () => {
       try {
         const response = await fetch(`${URL}/api/posts`);
@@ -74,10 +72,10 @@ const Articles = async () => {
 
       <main className="w-full mb-16 flex flex-col items-center  dark:text-light justify-center overflow-hidden">
         {/* <AnimatedText
-            text={"Words Can Change The World! "}
-            className="mb-16 lg:!text-7xl sm:mb-8 sm:!text-6xl lg:gap-8 xs:!text-4xl md:gap-y-16"
-          /> */}
-        <ul className="grid xs:grid-cols-1 grid-cols-2 gap-16 ">
+          text={"Featured Articles "}
+          className="mb-16 lg:!text-7xl sm:mb-8 sm:!text-6xl lg:gap-8 xs:!text-4xl md:gap-y-16"
+        /> */}
+        <ul className="grid grid-cols-1 md:grid-cols-2 mt-16 gap-16 ">
           {data?.map((article) => {
             if (article.desc === "featured") {
               return (
@@ -94,7 +92,7 @@ const Articles = async () => {
             }
           })}
         </ul>
-        <h2 className="font-bold text-4xl w-full  text-center  my-16 mt-32">
+        <h2 className="font-bold text-4xl w-full  text-center  my-16 ">
           All Articles
         </h2>
 

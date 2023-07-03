@@ -125,6 +125,7 @@ const Navbar = () => {
                 key={link.id}
                 href={link.url}
                 className={` hover:underline text-white dark:text-base`}
+                onClick={toggleMenu}
               >
                 {link.title}
               </Link>

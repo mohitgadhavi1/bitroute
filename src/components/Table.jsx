@@ -2,7 +2,7 @@ import React from "react";
 
 const Table = ({ columns, data }) => {
   return (
-    <div className="flex w-full h-auto justify-center items-center ">
+    <div className="flex w-full h-auto justify-center items-center overflow-auto">
       <table className="min-w-full  divide-y divide-gray-200 border rounded-xl">
         <thead>
           <tr>

@@ -4,9 +4,9 @@ import Link from "next/link";
 
 const Portfolio = () => {
   return (
-    <div className={styles.container}>
-      <h1 className={styles.selectTitle}>Choose a category</h1>
-      <div className={styles.items}>
+    <div className=" flex flex-col justify-center items-center md:items-start">
+      {/* <h1 className={styles.selectTitle}>Choose a category</h1> */}
+      <div className={`${styles.items} flex flex-col md:flex-row mt-4`}>
         <Link href="/resources/Deep Learning" className={styles.item}>
           <span className={styles.title}>Deep Learning</span>
         </Link>
