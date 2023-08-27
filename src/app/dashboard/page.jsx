@@ -192,20 +192,24 @@ const Dashboard = () => {
                   title: "Action",
                 },
               ]}
-              data={data.map((post) => ({
-                id: post._id,
-                title: post.title,
-                type: post.desc,
-                date: new Date(post.createdAt).toLocaleDateString(),
-                action: (
-                  <span
-                    className={styles.delete}
-                    onClick={() => handleDelete(post._id)}
-                  >
-                    X
-                  </span>
-                ),
-              }))}
+              data={
+                data
+                  ? data.map((post) => ({
+                      id: post._id,
+                      title: post.title,
+                      type: post.desc,
+                      date: new Date(post.createdAt).toLocaleDateString(),
+                      action: (
+                        <span
+                          className={styles.delete}
+                          onClick={() => handleDelete(post._id)}
+                        >
+                          X
+                        </span>
+                      ),
+                    }))
+                  : []
+              }
             />
           )}
         </div>

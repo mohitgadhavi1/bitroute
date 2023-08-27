@@ -8,7 +8,7 @@ import AuthProvider from "@/components/AuthProvider/AuthProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Blog | Beta",
+  title: "BitRoute AI",
   description: "This is the description",
 };
 

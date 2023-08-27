@@ -6,7 +6,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Head from "next/head";
-import { URL } from "@/apiList";
+
+const url = process.env.URL;
 
 const Blog = async () => {
   const data = await getData();
@@ -45,7 +46,7 @@ const Articles = async () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${URL}/api/posts`);
+        const response = await fetch(`${url}/api/posts`);
 
         if (!response.ok) {
           throw new Error("Request failed");
